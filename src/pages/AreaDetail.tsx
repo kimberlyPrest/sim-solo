@@ -11,6 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { seasonSchema } from '@/lib/validation/schemas'
 import * as z from 'zod'
 import { MapTab } from '@/features/areas/MapTab'
+import { SoilTab } from '@/features/soil/SoilTab'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
@@ -256,11 +257,7 @@ export default function AreaDetail() {
         </TabsContent>
 
         <TabsContent value="soil">
-          <Card>
-            <CardContent className="py-24 text-center text-muted-foreground">
-              Os dados de análise de solo e fertilidade dependem das integrações laboratoriais.
-            </CardContent>
-          </Card>
+          <SoilTab area={area} canEdit={canEdit} />
         </TabsContent>
 
         <TabsContent value="recs">
