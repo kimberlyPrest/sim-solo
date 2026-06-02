@@ -7,73 +7,121 @@ import * as turf from 'npm:@turf/turf@7.1.0'
 
 proj4.defs('EPSG:32723', '+proj=utm +zone=23 +south +datum=WGS84 +units=m +no_defs')
 
+const pointCodeKeys = ['ID', 'CODE', 'CODIGO', 'PONTO', 'id', 'code', 'codigo', 'ponto', 'name']
+const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+const transformCoordinates = (coordinates: any, sourceProjection: string): any => {
+  if (sourceProjection === 'EPSG:4326') return coordinates
+  if (typeof coordinates[0] === 'number') {
+    return proj4(sourceProjection, 'EPSG:4326', coordinates)
+  }
+  return coordinates.map((child: any) => transformCoordinates(child, sourceProjection))
+}
+
+const getPointCode = (properties: Record<string, unknown>, index: number) => {
+  const key = pointCodeKeys.find((candidate) => properties[candidate] != null)
+  const code = key ? String(properties[key]).trim() : ''
+  if (!code) {
+    throw new Error(`O ponto ${index + 1} não possui identificador no DBF.`)
+  }
+  return code
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
 
   try {
+    const authorization = req.headers.get('Authorization')
+    if (!authorization) {
+      throw new Error('Autenticação obrigatória.')
+    }
+
     const { storagePath, action, declaredAreaHa, projection = 'EPSG:4326' } = await req.json()
+    if (typeof storagePath !== 'string' || !storagePath.trim()) {
+      throw new Error('Caminho do arquivo obrigatório.')
+    }
+    if (!['initial', 'new_points', 'update_boundary'].includes(action)) {
+      throw new Error('Ação geográfica inválida.')
+    }
+
+    const organizationId = storagePath.split('/')[0]
+    if (!uuidPattern.test(organizationId)) {
+      throw new Error('Caminho do arquivo inválido.')
+    }
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL') || ''
-    const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') || ''
-    const supabase = createClient(supabaseUrl, supabaseKey)
+    const supabaseAnonKey = Deno.env.get('SUPABASE_ANON_KEY') || ''
+    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+      global: { headers: { Authorization: authorization } },
+    })
+
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser()
+    if (userError || !user) {
+      throw new Error('Sessão inválida.')
+    }
 
     const { data: fileData, error: downloadError } = await supabase.storage
       .from('soil-imports')
       .download(storagePath)
-
     if (downloadError || !fileData) {
-      throw new Error(`Failed to download file: ${downloadError?.message}`)
+      throw new Error(`Falha ao baixar arquivo: ${downloadError?.message}`)
     }
 
-    const buffer = await fileData.arrayBuffer()
-    const geojson = await shp(buffer)
-
+    const geojson = await shp(await fileData.arrayBuffer())
     const layers = Array.isArray(geojson) ? geojson : [geojson]
+    const features = layers.flatMap((layer: any) => layer.features || [])
+    const polygonFeatures = features.filter((feature: any) =>
+      ['Polygon', 'MultiPolygon'].includes(feature.geometry?.type),
+    )
+    const pointFeatures = features.flatMap((feature: any) => {
+      if (feature.geometry?.type === 'Point') return [feature]
+      if (feature.geometry?.type !== 'MultiPoint') return []
+      return feature.geometry.coordinates.map((coordinates: number[]) => ({
+        ...feature,
+        geometry: { type: 'Point', coordinates },
+      }))
+    })
 
-    let boundaryLayer: any = null
-    let pointsLayer: any = null
-
-    for (const layer of layers) {
-      const type = layer.features[0]?.geometry?.type
-      if (type === 'Polygon' || type === 'MultiPolygon') boundaryLayer = layer
-      if (type === 'Point' || type === 'MultiPoint') pointsLayer = layer
+    if (polygonFeatures.length > 1) {
+      throw new Error('O ZIP deve conter exatamente um polígono ou multipolígono para o contorno.')
+    }
+    if (action === 'initial' && (polygonFeatures.length === 0 || pointFeatures.length === 0)) {
+      throw new Error('O cadastro inicial exige um contorno e ao menos um ponto.')
+    }
+    if (action === 'new_points' && pointFeatures.length === 0) {
+      throw new Error('O arquivo deve conter ao menos um ponto.')
+    }
+    if (action === 'update_boundary' && polygonFeatures.length === 0) {
+      throw new Error('A atualização exige um polígono ou multipolígono.')
     }
 
-    if (action === 'initial' || action === 'update_contour') {
-      if (!boundaryLayer)
-        throw new Error('A camada de contorno (Polígono) não foi encontrada no arquivo ZIP.')
-    }
-    if (action === 'initial' || action === 'points_only') {
-      if (!pointsLayer)
-        throw new Error('A camada de pontos de amostragem não foi encontrada no arquivo ZIP.')
+    let boundary: any = null
+    if (polygonFeatures.length === 1) {
+      const geometry = polygonFeatures[0].geometry
+      const coordinates = transformCoordinates(geometry.coordinates, projection)
+      boundary =
+        geometry.type === 'Polygon'
+          ? { type: 'MultiPolygon', coordinates: [coordinates] }
+          : { type: 'MultiPolygon', coordinates }
     }
 
-    const convertCoords = (coords: any[], isPolygon: boolean): any[] => {
-      if (projection === 'EPSG:4326') return coords
-      if (isPolygon) {
-        if (typeof coords[0] === 'number') {
-          const [x, y] = proj4(projection, 'EPSG:4326', [coords[0], coords[1]])
-          return [x, y]
-        }
-        return coords.map((c: any) => convertCoords(c, true))
-      } else {
-        const [x, y] = proj4(projection, 'EPSG:4326', [coords[0], coords[1]])
-        return [x, y]
+    const points = pointFeatures.map((feature: any, index: number) => {
+      const [lng, lat] = transformCoordinates(feature.geometry.coordinates, projection)
+      return {
+        code: getPointCode(feature.properties || {}, index),
+        lng,
+        lat,
       }
-    }
+    })
 
-    if (boundaryLayer && projection !== 'EPSG:4326') {
-      boundaryLayer.features.forEach((f: any) => {
-        f.geometry.coordinates = convertCoords(f.geometry.coordinates, true)
-      })
-    }
-
-    if (pointsLayer && projection !== 'EPSG:4326') {
-      pointsLayer.features.forEach((f: any) => {
-        f.geometry.coordinates = convertCoords(f.geometry.coordinates, false)
-      })
+    const uniqueCodes = new Set(points.map((point) => point.code))
+    if (uniqueCodes.size !== points.length) {
+      throw new Error('Os identificadores dos pontos devem ser únicos dentro do arquivo.')
     }
 
     const validationSummary = {
@@ -85,39 +133,20 @@ Deno.serve(async (req: Request) => {
     let calculatedAreaHa = 0
     let divergencePct = 0
 
-    const boundaryGeom = boundaryLayer ? boundaryLayer.features[0].geometry : null
-    const pointsList: any[] = []
-
-    if (boundaryGeom) {
-      const polygon = turf.feature(boundaryGeom)
-      const areaSqm = turf.area(polygon)
-      calculatedAreaHa = areaSqm / 10000
+    if (boundary) {
+      calculatedAreaHa = turf.area(turf.feature(boundary)) / 10_000
       if (declaredAreaHa) {
         divergencePct = (Math.abs(calculatedAreaHa - declaredAreaHa) / declaredAreaHa) * 100
       }
-    }
 
-    if (pointsLayer) {
-      pointsLayer.features.forEach((f: any) => {
-        const props = f.properties || {}
-        const code =
-          props.ID ||
-          props.CODE ||
-          props.id ||
-          props.name ||
-          `P-${Math.random().toString(36).substring(7)}`
-        const coords = f.geometry.coordinates
-        pointsList.push({ code: code.toString(), lon: coords[0], lat: coords[1] })
-
-        if (boundaryGeom) {
-          const pt = turf.point(coords)
-          const polygon = turf.feature(boundaryGeom)
-          if (!turf.booleanPointInPolygon(pt, polygon)) {
-            validationSummary.pointsOutside++
-            validationSummary.outsideCodes.push(code.toString())
-          } else {
-            validationSummary.pointsInside++
-          }
+      points.forEach((point) => {
+        if (
+          turf.booleanPointInPolygon(turf.point([point.lng, point.lat]), turf.feature(boundary))
+        ) {
+          validationSummary.pointsInside += 1
+        } else {
+          validationSummary.pointsOutside += 1
+          validationSummary.outsideCodes.push(point.code)
         }
       })
     }
@@ -125,16 +154,16 @@ Deno.serve(async (req: Request) => {
     return new Response(
       JSON.stringify({
         success: true,
-        boundary: boundaryGeom,
-        points: pointsList,
+        boundary,
+        points,
         calculatedAreaHa,
         divergencePct,
         validationSummary,
       }),
       { headers: { 'Content-Type': 'application/json', ...corsHeaders } },
     )
-  } catch (err: any) {
-    return new Response(JSON.stringify({ success: false, error: err.message }), {
+  } catch (error: any) {
+    return new Response(JSON.stringify({ success: false, error: error.message }), {
       status: 400,
       headers: { 'Content-Type': 'application/json', ...corsHeaders },
     })
