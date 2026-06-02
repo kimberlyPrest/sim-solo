@@ -12,32 +12,56 @@ export type Database = {
       area_seasons: {
         Row: {
           area_id: string
+          actual_productivity: number | null
           created_at: string
           crop: string | null
+          end_date: string | null
+          expected_productivity: number | null
           expected_yield: number | null
           id: string
+          label: string | null
+          notes: string | null
           organization_id: string
+          previous_crop: string | null
+          productivity_unit: string | null
           season_year: string
+          start_date: string | null
           updated_at: string
         }
         Insert: {
           area_id: string
+          actual_productivity?: number | null
           created_at?: string
           crop?: string | null
+          end_date?: string | null
+          expected_productivity?: number | null
           expected_yield?: number | null
           id?: string
+          label?: string | null
+          notes?: string | null
           organization_id: string
+          previous_crop?: string | null
+          productivity_unit?: string | null
           season_year: string
+          start_date?: string | null
           updated_at?: string
         }
         Update: {
           area_id?: string
+          actual_productivity?: number | null
           created_at?: string
           crop?: string | null
+          end_date?: string | null
+          expected_productivity?: number | null
           expected_yield?: number | null
           id?: string
+          label?: string | null
+          notes?: string | null
           organization_id?: string
+          previous_crop?: string | null
+          productivity_unit?: string | null
           season_year?: string
+          start_date?: string | null
           updated_at?: string
         }
         Relationships: [
@@ -60,33 +84,45 @@ export type Database = {
       areas: {
         Row: {
           boundary: unknown
+          calculated_area_ha: number | null
           created_at: string
+          declared_area_ha: number | null
           farm_id: string
           id: string
           name: string
+          notes: string | null
           organization_id: string
+          source_srid: string | null
           status: Database['public']['Enums']['record_status']
           total_area_ha: number | null
           updated_at: string
         }
         Insert: {
           boundary?: unknown
+          calculated_area_ha?: number | null
           created_at?: string
+          declared_area_ha?: number | null
           farm_id: string
           id?: string
           name: string
+          notes?: string | null
           organization_id: string
+          source_srid?: string | null
           status?: Database['public']['Enums']['record_status']
           total_area_ha?: number | null
           updated_at?: string
         }
         Update: {
           boundary?: unknown
+          calculated_area_ha?: number | null
           created_at?: string
+          declared_area_ha?: number | null
           farm_id?: string
           id?: string
           name?: string
+          notes?: string | null
           organization_id?: string
+          source_srid?: string | null
           status?: Database['public']['Enums']['record_status']
           total_area_ha?: number | null
           updated_at?: string
@@ -111,8 +147,11 @@ export type Database = {
       audit_logs: {
         Row: {
           action: string
+          actor_id: string | null
+          changes: Json | null
           created_at: string
           entity: string
+          entity_type: string | null
           entity_id: string
           id: string
           new_data: Json | null
@@ -122,8 +161,11 @@ export type Database = {
         }
         Insert: {
           action: string
+          actor_id?: string | null
+          changes?: Json | null
           created_at?: string
           entity: string
+          entity_type?: string | null
           entity_id: string
           id?: string
           new_data?: Json | null
@@ -133,8 +175,11 @@ export type Database = {
         }
         Update: {
           action?: string
+          actor_id?: string | null
+          changes?: Json | null
           created_at?: string
           entity?: string
+          entity_type?: string | null
           entity_id?: string
           id?: string
           new_data?: Json | null
@@ -150,10 +195,12 @@ export type Database = {
           created_at: string
           id: string
           name: string
+          notes: string | null
           organization_id: string
           producer_id: string
           state: string | null
           status: Database['public']['Enums']['record_status']
+          total_area_ha: number | null
           updated_at: string
         }
         Insert: {
@@ -161,10 +208,12 @@ export type Database = {
           created_at?: string
           id?: string
           name: string
+          notes?: string | null
           organization_id: string
           producer_id: string
           state?: string | null
           status?: Database['public']['Enums']['record_status']
+          total_area_ha?: number | null
           updated_at?: string
         }
         Update: {
@@ -172,10 +221,12 @@ export type Database = {
           created_at?: string
           id?: string
           name?: string
+          notes?: string | null
           organization_id?: string
           producer_id?: string
           state?: string | null
           status?: Database['public']['Enums']['record_status']
+          total_area_ha?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -197,28 +248,40 @@ export type Database = {
       }
       import_files: {
         Row: {
+          checksum: string | null
           created_at: string
+          file_kind: string | null
           file_path: string
           file_size: number | null
           id: string
           import_id: string
+          organization_id: string | null
           original_name: string
+          storage_path: string | null
         }
         Insert: {
+          checksum?: string | null
           created_at?: string
+          file_kind?: string | null
           file_path: string
           file_size?: number | null
           id?: string
           import_id: string
+          organization_id?: string | null
           original_name: string
+          storage_path?: string | null
         }
         Update: {
+          checksum?: string | null
           created_at?: string
+          file_kind?: string | null
           file_path?: string
           file_size?: number | null
           id?: string
           import_id?: string
+          organization_id?: string | null
           original_name?: string
+          storage_path?: string | null
         }
         Relationships: [
           {
@@ -232,34 +295,55 @@ export type Database = {
       }
       imports: {
         Row: {
+          area_id: string | null
+          area_season_id: string | null
+          committed_at: string | null
           created_at: string
           created_by: string
+          error_summary: Json | null
           id: string
           kind: Database['public']['Enums']['import_kind']
           log_messages: Json | null
           organization_id: string
+          source_srid: string | null
           status: Database['public']['Enums']['import_status']
           updated_at: string
+          uploaded_by: string | null
+          validation_summary: Json | null
         }
         Insert: {
+          area_id?: string | null
+          area_season_id?: string | null
+          committed_at?: string | null
           created_at?: string
           created_by: string
+          error_summary?: Json | null
           id?: string
           kind: Database['public']['Enums']['import_kind']
           log_messages?: Json | null
           organization_id: string
+          source_srid?: string | null
           status?: Database['public']['Enums']['import_status']
           updated_at?: string
+          uploaded_by?: string | null
+          validation_summary?: Json | null
         }
         Update: {
+          area_id?: string | null
+          area_season_id?: string | null
+          committed_at?: string | null
           created_at?: string
           created_by?: string
+          error_summary?: Json | null
           id?: string
           kind?: Database['public']['Enums']['import_kind']
           log_messages?: Json | null
           organization_id?: string
+          source_srid?: string | null
           status?: Database['public']['Enums']['import_status']
           updated_at?: string
+          uploaded_by?: string | null
+          validation_summary?: Json | null
         }
         Relationships: [
           {
@@ -424,27 +508,36 @@ export type Database = {
         Row: {
           created_at: string
           document: string | null
+          email: string | null
           id: string
           name: string
+          notes: string | null
           organization_id: string
+          phone: string | null
           status: Database['public']['Enums']['record_status']
           updated_at: string
         }
         Insert: {
           created_at?: string
           document?: string | null
+          email?: string | null
           id?: string
           name: string
+          notes?: string | null
           organization_id: string
+          phone?: string | null
           status?: Database['public']['Enums']['record_status']
           updated_at?: string
         }
         Update: {
           created_at?: string
           document?: string | null
+          email?: string | null
           id?: string
           name?: string
+          notes?: string | null
           organization_id?: string
+          phone?: string | null
           status?: Database['public']['Enums']['record_status']
           updated_at?: string
         }
@@ -639,11 +732,16 @@ export type Database = {
       sampling_campaigns: {
         Row: {
           area_season_id: string
+          code: string | null
           created_at: string
           end_date: string | null
           id: string
+          laboratory: string | null
           name: string
+          notes: string | null
           organization_id: string
+          result_date: string | null
+          sample_date: string | null
           source: Database['public']['Enums']['campaign_source']
           start_date: string | null
           status: Database['public']['Enums']['record_status']
@@ -651,11 +749,16 @@ export type Database = {
         }
         Insert: {
           area_season_id: string
+          code?: string | null
           created_at?: string
           end_date?: string | null
           id?: string
+          laboratory?: string | null
           name: string
+          notes?: string | null
           organization_id: string
+          result_date?: string | null
+          sample_date?: string | null
           source?: Database['public']['Enums']['campaign_source']
           start_date?: string | null
           status?: Database['public']['Enums']['record_status']
@@ -663,11 +766,16 @@ export type Database = {
         }
         Update: {
           area_season_id?: string
+          code?: string | null
           created_at?: string
           end_date?: string | null
           id?: string
+          laboratory?: string | null
           name?: string
+          notes?: string | null
           organization_id?: string
+          result_date?: string | null
+          sample_date?: string | null
           source?: Database['public']['Enums']['campaign_source']
           start_date?: string | null
           status?: Database['public']['Enums']['record_status']
@@ -693,29 +801,38 @@ export type Database = {
       sampling_points: {
         Row: {
           campaign_id: string
+          code: string
           created_at: string
+          external_id: string | null
           id: string
           location: unknown
           name: string
           organization_id: string
+          sequence: number | null
           updated_at: string
         }
         Insert: {
           campaign_id: string
+          code: string
           created_at?: string
+          external_id?: string | null
           id?: string
           location: unknown
           name: string
           organization_id: string
+          sequence?: number | null
           updated_at?: string
         }
         Update: {
           campaign_id?: string
+          code?: string
           created_at?: string
+          external_id?: string | null
           id?: string
           location?: unknown
           name?: string
           organization_id?: string
+          sequence?: number | null
           updated_at?: string
         }
         Relationships: [
@@ -740,6 +857,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      commit_geographic_import: {
+        Args: {
+          p_action: string
+          p_area_id: string
+          p_boundary_geojson: Json | null
+          p_calculated_area_ha: number
+          p_campaign_id: string | null
+          p_file_path: string | null
+          p_file_size: number | null
+          p_import_id: string
+          p_justification: string | null
+          p_org_id: string
+          p_original_name: string | null
+          p_points: Json
+          p_source_srid: string
+        }
+        Returns: undefined
+      }
+      get_area_map_data: { Args: { p_area_id: string }; Returns: Json }
+      get_campaign_points: { Args: { p_campaign_id: string }; Returns: Json }
       get_user_organizations: { Args: never; Returns: string[] }
       has_role_in_org: {
         Args: {
@@ -747,6 +884,14 @@ export type Database = {
           org_id: string
         }
         Returns: boolean
+      }
+      reuse_campaign_points: {
+        Args: {
+          p_org_id: string
+          p_source_campaign_id: string
+          p_target_campaign_id: string
+        }
+        Returns: undefined
       }
     }
     Enums: {

@@ -1,5 +1,6 @@
 -- Enable PostGIS if not enabled
-CREATE EXTENSION IF NOT EXISTS postgis;
+CREATE SCHEMA IF NOT EXISTS gis;
+CREATE EXTENSION IF NOT EXISTS postgis WITH SCHEMA gis;
 
 -- SIM Organization
 INSERT INTO public.organizations (id, name)
@@ -31,7 +32,7 @@ ALTER TABLE public.areas
 
 DO $block$
 BEGIN
-  ALTER TABLE public.areas ALTER COLUMN boundary TYPE geometry(MultiPolygon, 4326);
+  ALTER TABLE public.areas ALTER COLUMN boundary TYPE gis.geometry(MultiPolygon, 4326);
 EXCEPTION WHEN others THEN
 END $block$;
 
@@ -62,7 +63,7 @@ ALTER TABLE public.sampling_points
 
 DO $block$
 BEGIN
-  ALTER TABLE public.sampling_points ALTER COLUMN location TYPE geometry(Point, 4326);
+  ALTER TABLE public.sampling_points ALTER COLUMN location TYPE gis.geometry(Point, 4326);
 EXCEPTION WHEN others THEN
 END $block$;
 

@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Sprout, Plus, ChevronRight, ArrowLeft } from 'lucide-react'
-import { api, Farm, Area } from '@/lib/api'
-import { useToast } from '@/hooks/use-toast'
+import { MapPin, ChevronRight, ArrowLeft } from 'lucide-react'
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs'
+import { useQuery } from '@/hooks/use-query'
+import { supabase } from '@/lib/supabase/client'
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
@@ -17,189 +15,100 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  FormDescription,
-} from '@/components/ui/form'
-
-const schema = z.object({
-  name: z.string().min(2, 'Nome muito curto'),
-  size: z.coerce.number().min(0.01, 'Tamanho inválido'),
-  geom: z.string().optional(),
-})
 
 export default function FarmDetail() {
   const { id } = useParams()
-  const [farm, setFarm] = useState<Farm | null>(null)
-  const [areas, setAreas] = useState<Area[]>([])
-  const [open, setOpen] = useState(false)
-  const { toast } = useToast()
+  const { setBreadcrumbs } = useBreadcrumbs()
 
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: { name: '', size: 0, geom: '' },
-  })
+  const { data: farm, isLoading: loadingFarm } = useQuery(
+    ['farm', id || ''],
+    async () => {
+      const { data, error } = await supabase
+        .from('farms')
+        .select('*, producers(id, name)')
+        .eq('id', id!)
+        .single()
+      if (error) throw error
+      return data
+    },
+    { enabled: !!id },
+  )
 
-  const load = async () => {
-    if (!id) return
-    const f = await api.getFarm(id)
-    if (f) setFarm(f)
-    const a = await api.getAreasByFarm(id)
-    setAreas(a)
-  }
+  const { data: areas = [] } = useQuery(
+    ['farm-areas', id || ''],
+    async () => {
+      const { data, error } = await supabase
+        .from('areas')
+        .select('*')
+        .eq('farm_id', id!)
+        .eq('status', 'active')
+      if (error) throw error
+      return data || []
+    },
+    { enabled: !!id },
+  )
 
   useEffect(() => {
-    load()
-  }, [id])
+    if (farm) {
+      setBreadcrumbs([
+        { label: 'Fazendas', url: '/fazendas' },
+        { label: farm.producers?.name || 'Produtor', url: `/produtores/${farm.producer_id}` },
+        { label: farm.name },
+      ])
+    }
+  }, [farm, setBreadcrumbs])
 
-  const onSubmit = async (values: z.infer<typeof schema>) => {
-    if (!id) return
-    await api.createArea({ ...values, farmId: id })
-    toast({ title: 'Sucesso', description: 'Talhão cadastrado com sucesso.' })
-    setOpen(false)
-    form.reset()
-    load()
-  }
-
-  if (!farm)
-    return (
-      <div className="p-12 text-center text-muted-foreground animate-pulse">
-        Carregando fazenda...
-      </div>
-    )
+  if (loadingFarm || !farm)
+    return <div className="p-12 text-center animate-pulse">Carregando...</div>
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b pb-6">
-        <div className="flex items-center gap-4">
-          <Button variant="outline" size="icon" asChild className="rounded-full">
-            <Link to={`/produtores/${farm.producerId}`}>
-              <ArrowLeft className="w-4 h-4" />
-            </Link>
-          </Button>
-          <div>
-            <h1 className="text-3xl font-bold tracking-tight text-primary">{farm.name}</h1>
-            <p className="text-muted-foreground mt-1">
-              Área Total da Propriedade: {farm.totalArea} ha
-            </p>
-          </div>
+      <div className="flex items-center gap-4 border-b pb-6">
+        <Button variant="outline" size="icon" asChild className="rounded-full">
+          <Link to={`/produtores/${farm.producer_id}`}>
+            <ArrowLeft className="w-4 h-4" />
+          </Link>
+        </Button>
+        <div>
+          <h1 className="text-3xl font-bold text-primary">{farm.name}</h1>
+          <p className="text-muted-foreground mt-1">
+            Produtor:{' '}
+            <Link to={`/produtores/${farm.producer_id}`} className="hover:underline">
+              {farm.producers?.name}
+            </Link>{' '}
+            • {farm.total_area_ha ? `${farm.total_area_ha} ha` : 'Área não informada'}
+          </p>
         </div>
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" /> Novo Talhão
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="sm:max-w-md">
-            <SheetHeader>
-              <SheetTitle>Novo Talhão (Área)</SheetTitle>
-              <SheetDescription>
-                Subdivisão da fazenda para processos de amostragem.
-              </SheetDescription>
-            </SheetHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mt-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Identificação</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: Talhão 01" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="size"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tamanho (ha)</FormLabel>
-                      <FormControl>
-                        <Input type="number" step="0.01" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="geom"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>GeoJSON (Opcional)</FormLabel>
-                      <FormControl>
-                        <Input placeholder="{ type: 'Feature', ... }" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Estrutura geométrica exportada para PostGIS.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full">
-                  Salvar Talhão
-                </Button>
-              </form>
-            </Form>
-          </SheetContent>
-        </Sheet>
       </div>
 
       <Card className="shadow-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Sprout className="w-5 h-5 text-primary" /> Talhões Mapeados
+            <MapPin className="w-5 h-5 text-primary" /> Áreas Mapeadas
           </CardTitle>
-          <CardDescription>Áreas de manejo dentro desta propriedade.</CardDescription>
+          <CardDescription>Talhões e divisões dentro desta propriedade.</CardDescription>
         </CardHeader>
         <CardContent className="p-0 border-t">
           <Table>
             <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead className="pl-6">Identificação</TableHead>
-                <TableHead>Tamanho</TableHead>
-                <TableHead>Integração GIS</TableHead>
-                <TableHead className="text-right pr-6 w-[120px]">Ações</TableHead>
+                <TableHead>Área Declarada</TableHead>
+                <TableHead className="text-right pr-6">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {areas.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={4} className="text-center py-12 text-muted-foreground">
+                  <TableCell colSpan={3} className="text-center py-12 text-muted-foreground">
                     Nenhum talhão registrado.
                   </TableCell>
                 </TableRow>
               ) : (
                 areas.map((a) => (
                   <TableRow key={a.id} className="hover:bg-muted/30">
-                    <TableCell className="font-medium pl-6">{a.name}</TableCell>
-                    <TableCell>{a.size} ha</TableCell>
-                    <TableCell>
-                      {a.geom ? (
-                        <span className="text-primary font-medium">Definida</span>
-                      ) : (
-                        <span className="text-muted-foreground">Não definida</span>
-                      )}
-                    </TableCell>
+                    <TableCell className="pl-6 font-medium">{a.name}</TableCell>
+                    <TableCell>{a.total_area_ha ? `${a.total_area_ha} ha` : '-'}</TableCell>
                     <TableCell className="text-right pr-6">
                       <Button
                         variant="ghost"

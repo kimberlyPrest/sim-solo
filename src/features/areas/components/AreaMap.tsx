@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { MapContainer, TileLayer, Polygon, CircleMarker, Tooltip, useMap } from 'react-leaflet'
 import * as turf from '@turf/turf'
 import { supabase } from '@/lib/supabase/client'
+import 'leaflet/dist/leaflet.css'
 import {
   Select,
   SelectContent,
@@ -51,11 +52,11 @@ export function AreaMap({
   const [points, setPoints] = useState<any[]>([])
   const [selectedCampaign, setSelectedCampaign] = useState<string>('all')
 
-  const fetchGeom = async () => {
+  const fetchGeom = useCallback(async () => {
     const { data: areaData } = await (supabase.rpc as any)('get_area_map_data', {
       p_area_id: areaId,
     })
-    if (areaData?.boundary) setBoundary(areaData.boundary)
+    setBoundary(areaData?.boundary || null)
 
     if (selectedCampaign && selectedCampaign !== 'all') {
       const { data: pts } = await (supabase.rpc as any)('get_campaign_points', {
@@ -65,11 +66,11 @@ export function AreaMap({
     } else {
       setPoints([])
     }
-  }
+  }, [areaId, selectedCampaign])
 
   useEffect(() => {
     fetchGeom()
-  }, [areaId, selectedCampaign])
+  }, [fetchGeom])
 
   const flipCoords = (coords: any[]): any[] => {
     return coords.map((ring) => ring.map((c: number[]) => [c[1], c[0]]))
@@ -130,11 +131,17 @@ export function AreaMap({
           <div className="pt-4 border-t space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Área Declarada:</span>
-              <span className="font-medium">{area.total_area_ha || '-'} ha</span>
+              <span className="font-medium">
+                {area.declared_area_ha || area.total_area_ha || '-'} ha
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Área Calculada:</span>
               <span className="font-medium">{area.calculated_area_ha?.toFixed(2) || '-'} ha</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-muted-foreground">Projeção Original:</span>
+              <span className="font-medium">{area.source_srid || '-'}</span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Total de Pontos:</span>
