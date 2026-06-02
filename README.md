@@ -30,15 +30,24 @@ projeto Supabase. O arquivo com credenciais locais não deve ser versionado.
 
 ## Supabase
 
-As migrations ficam em `supabase/migrations`. Antes de usar a importação geográfica, aplique a
-migration mais recente no projeto Supabase:
+As migrations ficam em `supabase/migrations`. O Supabase já está configurado no projeto e as tabelas e dados iniciais foram criados com as migrations.
 
-```text
-20260602203000_phase4_consolidation.sql
+### Configuração Inicial
+Após rodar o projeto e aplicar a última migration, as seguintes entidades já foram configuradas automaticamente:
+- A organização raiz "SIM"
+- Os 26 atributos do catálogo padrão de laboratório
+- O usuário inicial `kimberly@adapta.org` (senha: `Skip@Pass`)
+- A associação desse usuário como `admin` na organização SIM
+
+Caso deseje associar um novo usuário manualmente como administrador da organização SIM, você pode rodar o seguinte SQL no painel de controle do Supabase:
+
+```sql
+INSERT INTO public.organization_members (organization_id, user_id, role)
+SELECT o.id, u.id, 'admin'
+FROM public.organizations o, auth.users u
+WHERE o.name = 'SIM' AND u.email = 'seu_novo_usuario@exemplo.com'
+ON CONFLICT (organization_id, user_id) DO UPDATE SET role = 'admin';
 ```
-
-Ela valida o PostGIS, cria o bucket privado `soil-imports`, restringe o acesso aos arquivos por
-organização e instala as RPCs usadas pelo mapa e pelo assistente de importação.
 
 ## 💻 Scripts Disponíveis
 
