@@ -1,14 +1,16 @@
-/* Main App Component - Handles routing (using react-router-dom), query client and other providers - use this file to add all routes */
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Toaster } from '@/components/ui/toaster'
 import { Toaster as Sonner } from '@/components/ui/sonner'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import Index from './pages/Index'
-import NotFound from './pages/NotFound'
-import Layout from './components/Layout'
 
-// ONLY IMPORT AND RENDER WORKING PAGES, NEVER ADD PLACEHOLDER COMPONENTS OR PAGES IN THIS FILE
-// AVOID REMOVING ANY CONTEXT PROVIDERS FROM THIS FILE (e.g. TooltipProvider, Toaster, Sonner)
+import Layout from './components/Layout'
+import Index from './pages/Index'
+import Producers from './pages/Producers'
+import ProducerDetail from './pages/ProducerDetail'
+import FarmDetail from './pages/FarmDetail'
+import AreaDetail from './pages/AreaDetail'
+import CampaignDetail from './pages/CampaignDetail'
+import NotFound from './pages/NotFound'
 
 const App = () => (
   <BrowserRouter future={{ v7_startTransition: false, v7_relativeSplatPath: false }}>
@@ -18,7 +20,11 @@ const App = () => (
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES MUST BE ADDED HERE */}
+          <Route path="/produtores" element={<Producers />} />
+          <Route path="/produtores/:id" element={<ProducerDetail />} />
+          <Route path="/fazendas/:id" element={<FarmDetail />} />
+          <Route path="/areas/:id" element={<AreaDetail />} />
+          <Route path="/campanhas/:id" element={<CampaignDetail />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
