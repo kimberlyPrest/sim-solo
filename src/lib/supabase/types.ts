@@ -1,18 +1,24 @@
 // AVOID UPDATING THIS FILE DIRECTLY. It is automatically generated.
-export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
 
 export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: '14.5'
+    PostgrestVersion: "14.5"
   }
   public: {
     Tables: {
       area_seasons: {
         Row: {
-          area_id: string
           actual_productivity: number | null
+          area_id: string
           created_at: string
           crop: string | null
           end_date: string | null
@@ -29,8 +35,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
-          area_id: string
           actual_productivity?: number | null
+          area_id: string
           created_at?: string
           crop?: string | null
           end_date?: string | null
@@ -47,8 +53,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
-          area_id?: string
           actual_productivity?: number | null
+          area_id?: string
           created_at?: string
           crop?: string | null
           end_date?: string | null
@@ -66,18 +72,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'area_seasons_area_id_fkey'
-            columns: ['area_id']
+            foreignKeyName: "area_seasons_area_id_fkey"
+            columns: ["area_id"]
             isOneToOne: false
-            referencedRelation: 'areas'
-            referencedColumns: ['id']
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'area_seasons_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "area_seasons_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -93,7 +99,7 @@ export type Database = {
           notes: string | null
           organization_id: string
           source_srid: string | null
-          status: Database['public']['Enums']['record_status']
+          status: Database["public"]["Enums"]["record_status"]
           total_area_ha: number | null
           updated_at: string
         }
@@ -108,7 +114,7 @@ export type Database = {
           notes?: string | null
           organization_id: string
           source_srid?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           total_area_ha?: number | null
           updated_at?: string
         }
@@ -123,24 +129,24 @@ export type Database = {
           notes?: string | null
           organization_id?: string
           source_srid?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           total_area_ha?: number | null
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'areas_farm_id_fkey'
-            columns: ['farm_id']
+            foreignKeyName: "areas_farm_id_fkey"
+            columns: ["farm_id"]
             isOneToOne: false
-            referencedRelation: 'farms'
-            referencedColumns: ['id']
+            referencedRelation: "farms"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'areas_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "areas_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -151,8 +157,8 @@ export type Database = {
           changes: Json | null
           created_at: string
           entity: string
-          entity_type: string | null
           entity_id: string
+          entity_type: string | null
           id: string
           new_data: Json | null
           old_data: Json | null
@@ -165,8 +171,8 @@ export type Database = {
           changes?: Json | null
           created_at?: string
           entity: string
-          entity_type?: string | null
           entity_id: string
+          entity_type?: string | null
           id?: string
           new_data?: Json | null
           old_data?: Json | null
@@ -179,15 +185,23 @@ export type Database = {
           changes?: Json | null
           created_at?: string
           entity?: string
-          entity_type?: string | null
           entity_id?: string
+          entity_type?: string | null
           id?: string
           new_data?: Json | null
           old_data?: Json | null
           organization_id?: string | null
           user_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "audit_logs_actor_id_fkey"
+            columns: ["actor_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       farms: {
         Row: {
@@ -199,7 +213,7 @@ export type Database = {
           organization_id: string
           producer_id: string
           state: string | null
-          status: Database['public']['Enums']['record_status']
+          status: Database["public"]["Enums"]["record_status"]
           total_area_ha: number | null
           updated_at: string
         }
@@ -212,7 +226,7 @@ export type Database = {
           organization_id: string
           producer_id: string
           state?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           total_area_ha?: number | null
           updated_at?: string
         }
@@ -225,24 +239,24 @@ export type Database = {
           organization_id?: string
           producer_id?: string
           state?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           total_area_ha?: number | null
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'farms_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "farms_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'farms_producer_id_fkey'
-            columns: ['producer_id']
+            foreignKeyName: "farms_producer_id_fkey"
+            columns: ["producer_id"]
             isOneToOne: false
-            referencedRelation: 'producers'
-            referencedColumns: ['id']
+            referencedRelation: "producers"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -285,11 +299,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'import_files_import_id_fkey'
-            columns: ['import_id']
+            foreignKeyName: "import_files_import_id_fkey"
+            columns: ["import_id"]
             isOneToOne: false
-            referencedRelation: 'imports'
-            referencedColumns: ['id']
+            referencedRelation: "imports"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "import_files_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -302,11 +323,11 @@ export type Database = {
           created_by: string
           error_summary: Json | null
           id: string
-          kind: Database['public']['Enums']['import_kind']
+          kind: Database["public"]["Enums"]["import_kind"]
           log_messages: Json | null
           organization_id: string
           source_srid: string | null
-          status: Database['public']['Enums']['import_status']
+          status: Database["public"]["Enums"]["import_status"]
           updated_at: string
           uploaded_by: string | null
           validation_summary: Json | null
@@ -319,11 +340,11 @@ export type Database = {
           created_by: string
           error_summary?: Json | null
           id?: string
-          kind: Database['public']['Enums']['import_kind']
+          kind: Database["public"]["Enums"]["import_kind"]
           log_messages?: Json | null
           organization_id: string
           source_srid?: string | null
-          status?: Database['public']['Enums']['import_status']
+          status?: Database["public"]["Enums"]["import_status"]
           updated_at?: string
           uploaded_by?: string | null
           validation_summary?: Json | null
@@ -336,53 +357,86 @@ export type Database = {
           created_by?: string
           error_summary?: Json | null
           id?: string
-          kind?: Database['public']['Enums']['import_kind']
+          kind?: Database["public"]["Enums"]["import_kind"]
           log_messages?: Json | null
           organization_id?: string
           source_srid?: string | null
-          status?: Database['public']['Enums']['import_status']
+          status?: Database["public"]["Enums"]["import_status"]
           updated_at?: string
           uploaded_by?: string | null
           validation_summary?: Json | null
         }
         Relationships: [
           {
-            foreignKeyName: 'imports_created_by_fkey'
-            columns: ['created_by']
+            foreignKeyName: "imports_area_id_fkey"
+            columns: ["area_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "areas"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'imports_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "imports_area_season_id_fkey"
+            columns: ["area_season_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "area_seasons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "imports_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "imports_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "imports_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
       lab_attributes: {
         Row: {
+          active: boolean | null
           category: string | null
           code: string
           created_at: string
+          default_unit: string | null
+          display_order: number | null
+          id: string
           name: string
           unit: string | null
           updated_at: string
         }
         Insert: {
+          active?: boolean | null
           category?: string | null
           code: string
           created_at?: string
+          default_unit?: string | null
+          display_order?: number | null
+          id?: string
           name: string
           unit?: string | null
           updated_at?: string
         }
         Update: {
+          active?: boolean | null
           category?: string | null
           code?: string
           created_at?: string
+          default_unit?: string | null
+          display_order?: number | null
+          id?: string
           name?: string
           unit?: string | null
           updated_at?: string
@@ -392,55 +446,70 @@ export type Database = {
       lab_measurements: {
         Row: {
           attribute_code: string
+          attribute_id: string | null
+          classification: string | null
           created_at: string
+          extractor: string | null
           id: string
+          method: string | null
           numeric_value: number | null
           organization_id: string
           sample_id: string
           text_value: string | null
+          unit: string | null
           updated_at: string
         }
         Insert: {
           attribute_code: string
+          attribute_id?: string | null
+          classification?: string | null
           created_at?: string
+          extractor?: string | null
           id?: string
+          method?: string | null
           numeric_value?: number | null
           organization_id: string
           sample_id: string
           text_value?: string | null
+          unit?: string | null
           updated_at?: string
         }
         Update: {
           attribute_code?: string
+          attribute_id?: string | null
+          classification?: string | null
           created_at?: string
+          extractor?: string | null
           id?: string
+          method?: string | null
           numeric_value?: number | null
           organization_id?: string
           sample_id?: string
           text_value?: string | null
+          unit?: string | null
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'lab_measurements_attribute_code_fkey'
-            columns: ['attribute_code']
+            foreignKeyName: "lab_measurements_attribute_id_fkey"
+            columns: ["attribute_id"]
             isOneToOne: false
-            referencedRelation: 'lab_attributes'
-            referencedColumns: ['code']
+            referencedRelation: "lab_attributes"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'lab_measurements_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "lab_measurements_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'lab_measurements_sample_id_fkey'
-            columns: ['sample_id']
+            foreignKeyName: "lab_measurements_sample_id_fkey"
+            columns: ["sample_id"]
             isOneToOne: false
-            referencedRelation: 'samples'
-            referencedColumns: ['id']
+            referencedRelation: "samples"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -448,38 +517,38 @@ export type Database = {
         Row: {
           created_at: string
           organization_id: string
-          role: Database['public']['Enums']['member_role']
+          role: Database["public"]["Enums"]["member_role"]
           updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
           organization_id: string
-          role?: Database['public']['Enums']['member_role']
+          role?: Database["public"]["Enums"]["member_role"]
           updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
           organization_id?: string
-          role?: Database['public']['Enums']['member_role']
+          role?: Database["public"]["Enums"]["member_role"]
           updated_at?: string
           user_id?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'organization_members_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "organization_members_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'organization_members_user_id_fkey'
-            columns: ['user_id']
+            foreignKeyName: "organization_members_user_id_fkey"
+            columns: ["user_id"]
             isOneToOne: false
-            referencedRelation: 'profiles'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -514,7 +583,7 @@ export type Database = {
           notes: string | null
           organization_id: string
           phone: string | null
-          status: Database['public']['Enums']['record_status']
+          status: Database["public"]["Enums"]["record_status"]
           updated_at: string
         }
         Insert: {
@@ -526,7 +595,7 @@ export type Database = {
           notes?: string | null
           organization_id: string
           phone?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           updated_at?: string
         }
         Update: {
@@ -538,16 +607,16 @@ export type Database = {
           notes?: string | null
           organization_id?: string
           phone?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'producers_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "producers_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -580,10 +649,12 @@ export type Database = {
           created_at: string
           dose: number
           id: string
-          kind: Database['public']['Enums']['recommendation_kind']
+          item: string | null
+          kind: Database["public"]["Enums"]["recommendation_kind"]
+          notes: string | null
           organization_id: string
-          point_id: string
           product: string
+          sampling_point_id: string | null
           set_id: string
           unit: string
           updated_at: string
@@ -592,10 +663,12 @@ export type Database = {
           created_at?: string
           dose: number
           id?: string
-          kind: Database['public']['Enums']['recommendation_kind']
+          item?: string | null
+          kind: Database["public"]["Enums"]["recommendation_kind"]
+          notes?: string | null
           organization_id: string
-          point_id: string
           product: string
+          sampling_point_id?: string | null
           set_id: string
           unit: string
           updated_at?: string
@@ -604,35 +677,37 @@ export type Database = {
           created_at?: string
           dose?: number
           id?: string
-          kind?: Database['public']['Enums']['recommendation_kind']
+          item?: string | null
+          kind?: Database["public"]["Enums"]["recommendation_kind"]
+          notes?: string | null
           organization_id?: string
-          point_id?: string
           product?: string
+          sampling_point_id?: string | null
           set_id?: string
           unit?: string
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'recommendation_items_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "recommendation_items_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'recommendation_items_point_id_fkey'
-            columns: ['point_id']
+            foreignKeyName: "recommendation_items_point_id_fkey"
+            columns: ["sampling_point_id"]
             isOneToOne: false
-            referencedRelation: 'sampling_points'
-            referencedColumns: ['id']
+            referencedRelation: "sampling_points"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'recommendation_items_set_id_fkey'
-            columns: ['set_id']
+            foreignKeyName: "recommendation_items_set_id_fkey"
+            columns: ["set_id"]
             isOneToOne: false
-            referencedRelation: 'recommendation_sets'
-            referencedColumns: ['id']
+            referencedRelation: "recommendation_sets"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -640,41 +715,60 @@ export type Database = {
         Row: {
           campaign_id: string
           created_at: string
+          created_by: string | null
           id: string
+          kind: string | null
           name: string
+          notes: string | null
           organization_id: string
+          title: string | null
           updated_at: string
         }
         Insert: {
           campaign_id: string
           created_at?: string
+          created_by?: string | null
           id?: string
+          kind?: string | null
           name: string
+          notes?: string | null
           organization_id: string
+          title?: string | null
           updated_at?: string
         }
         Update: {
           campaign_id?: string
           created_at?: string
+          created_by?: string | null
           id?: string
+          kind?: string | null
           name?: string
+          notes?: string | null
           organization_id?: string
+          title?: string | null
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'recommendation_sets_campaign_id_fkey'
-            columns: ['campaign_id']
+            foreignKeyName: "recommendation_sets_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: 'sampling_campaigns'
-            referencedColumns: ['id']
+            referencedRelation: "sampling_campaigns"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'recommendation_sets_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "recommendation_sets_created_by_fkey"
+            columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recommendation_sets_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -684,10 +778,12 @@ export type Database = {
           collection_date: string | null
           created_at: string
           depth_bottom_cm: number | null
+          depth_from_cm: number | null
+          depth_to_cm: number | null
           depth_top_cm: number | null
           id: string
           organization_id: string
-          point_id: string
+          sampling_point_id: string
           updated_at: string
         }
         Insert: {
@@ -695,10 +791,12 @@ export type Database = {
           collection_date?: string | null
           created_at?: string
           depth_bottom_cm?: number | null
+          depth_from_cm?: number | null
+          depth_to_cm?: number | null
           depth_top_cm?: number | null
           id?: string
           organization_id: string
-          point_id: string
+          sampling_point_id: string
           updated_at?: string
         }
         Update: {
@@ -706,26 +804,28 @@ export type Database = {
           collection_date?: string | null
           created_at?: string
           depth_bottom_cm?: number | null
+          depth_from_cm?: number | null
+          depth_to_cm?: number | null
           depth_top_cm?: number | null
           id?: string
           organization_id?: string
-          point_id?: string
+          sampling_point_id?: string
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'samples_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "samples_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'samples_point_id_fkey'
-            columns: ['point_id']
+            foreignKeyName: "samples_point_id_fkey"
+            columns: ["sampling_point_id"]
             isOneToOne: false
-            referencedRelation: 'sampling_points'
-            referencedColumns: ['id']
+            referencedRelation: "sampling_points"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -742,9 +842,9 @@ export type Database = {
           organization_id: string
           result_date: string | null
           sample_date: string | null
-          source: Database['public']['Enums']['campaign_source']
+          source: Database["public"]["Enums"]["campaign_source"]
           start_date: string | null
-          status: Database['public']['Enums']['record_status']
+          status: Database["public"]["Enums"]["record_status"]
           updated_at: string
         }
         Insert: {
@@ -759,9 +859,9 @@ export type Database = {
           organization_id: string
           result_date?: string | null
           sample_date?: string | null
-          source?: Database['public']['Enums']['campaign_source']
+          source?: Database["public"]["Enums"]["campaign_source"]
           start_date?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           updated_at?: string
         }
         Update: {
@@ -776,25 +876,25 @@ export type Database = {
           organization_id?: string
           result_date?: string | null
           sample_date?: string | null
-          source?: Database['public']['Enums']['campaign_source']
+          source?: Database["public"]["Enums"]["campaign_source"]
           start_date?: string | null
-          status?: Database['public']['Enums']['record_status']
+          status?: Database["public"]["Enums"]["record_status"]
           updated_at?: string
         }
         Relationships: [
           {
-            foreignKeyName: 'sampling_campaigns_area_season_id_fkey'
-            columns: ['area_season_id']
+            foreignKeyName: "sampling_campaigns_area_season_id_fkey"
+            columns: ["area_season_id"]
             isOneToOne: false
-            referencedRelation: 'area_seasons'
-            referencedColumns: ['id']
+            referencedRelation: "area_seasons"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'sampling_campaigns_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "sampling_campaigns_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -837,18 +937,18 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: 'sampling_points_campaign_id_fkey'
-            columns: ['campaign_id']
+            foreignKeyName: "sampling_points_campaign_id_fkey"
+            columns: ["campaign_id"]
             isOneToOne: false
-            referencedRelation: 'sampling_campaigns'
-            referencedColumns: ['id']
+            referencedRelation: "sampling_campaigns"
+            referencedColumns: ["id"]
           },
           {
-            foreignKeyName: 'sampling_points_organization_id_fkey'
-            columns: ['organization_id']
+            foreignKeyName: "sampling_points_organization_id_fkey"
+            columns: ["organization_id"]
             isOneToOne: false
-            referencedRelation: 'organizations'
-            referencedColumns: ['id']
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -861,15 +961,15 @@ export type Database = {
         Args: {
           p_action: string
           p_area_id: string
-          p_boundary_geojson: Json | null
+          p_boundary_geojson: Json
           p_calculated_area_ha: number
-          p_campaign_id: string | null
-          p_file_path: string | null
-          p_file_size: number | null
+          p_campaign_id: string
+          p_file_path: string
+          p_file_size: number
           p_import_id: string
-          p_justification: string | null
+          p_justification: string
           p_org_id: string
-          p_original_name: string | null
+          p_original_name: string
           p_points: Json
           p_source_srid: string
         }
@@ -880,7 +980,7 @@ export type Database = {
       get_user_organizations: { Args: never; Returns: string[] }
       has_role_in_org: {
         Args: {
-          allowed_roles: Database['public']['Enums']['member_role'][]
+          allowed_roles: Database["public"]["Enums"]["member_role"][]
           org_id: string
         }
         Returns: boolean
@@ -895,12 +995,17 @@ export type Database = {
       }
     }
     Enums: {
-      campaign_source: 'sim' | 'historical_standardized'
-      import_kind: 'geography' | 'soil_analysis' | 'recommendations'
-      import_status: 'uploaded' | 'validating' | 'validated' | 'committed' | 'failed'
-      member_role: 'admin' | 'technician' | 'viewer'
-      recommendation_kind: 'corrective' | 'organic' | 'nutritional'
-      record_status: 'active' | 'archived'
+      campaign_source: "sim" | "historical_standardized"
+      import_kind: "geography" | "soil_analysis" | "recommendations"
+      import_status:
+        | "uploaded"
+        | "validating"
+        | "validated"
+        | "committed"
+        | "failed"
+      member_role: "admin" | "technician" | "viewer"
+      recommendation_kind: "corrective" | "organic" | "nutritional"
+      record_status: "active" | "archived"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -908,31 +1013,33 @@ export type Database = {
   }
 }
 
-type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>
+type DatabaseWithoutInternals = Omit<Database, "__InternalSupabase">
 
-type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>]
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, "public">]
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    | keyof (DefaultSchema["Tables"] & DefaultSchema["Views"])
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])[TableName] extends {
+  ? (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"] &
+      DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Views"])[TableName] extends {
       Row: infer R
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])
+    ? (DefaultSchema["Tables"] &
+        DefaultSchema["Views"])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R
       }
       ? R
@@ -941,23 +1048,23 @@ export type Tables<
 
 export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Insert: infer I
     }
     ? I
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Insert: infer I
       }
       ? I
@@ -966,23 +1073,23 @@ export type TablesInsert<
 
 export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
-    | keyof DefaultSchema['Tables']
+    | keyof DefaultSchema["Tables"]
     | { schema: keyof DatabaseWithoutInternals },
   TableName extends DefaultSchemaTableNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"]
     : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'][TableName] extends {
+  ? DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions["schema"]]["Tables"][TableName] extends {
       Update: infer U
     }
     ? U
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema['Tables']
-    ? DefaultSchema['Tables'][DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof DefaultSchema["Tables"]
+    ? DefaultSchema["Tables"][DefaultSchemaTableNameOrOptions] extends {
         Update: infer U
       }
       ? U
@@ -991,50 +1098,57 @@ export type TablesUpdate<
 
 export type Enums<
   DefaultSchemaEnumNameOrOptions extends
-    | keyof DefaultSchema['Enums']
+    | keyof DefaultSchema["Enums"]
     | { schema: keyof DatabaseWithoutInternals },
   EnumName extends DefaultSchemaEnumNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"]
     : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums'][EnumName]
-  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema['Enums']
-    ? DefaultSchema['Enums'][DefaultSchemaEnumNameOrOptions]
+  ? DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : DefaultSchemaEnumNameOrOptions extends keyof DefaultSchema["Enums"]
+    ? DefaultSchema["Enums"][DefaultSchemaEnumNameOrOptions]
     : never
 
 export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
-    | keyof DefaultSchema['CompositeTypes']
+    | keyof DefaultSchema["CompositeTypes"]
     | { schema: keyof DatabaseWithoutInternals },
   CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
     schema: keyof DatabaseWithoutInternals
   }
-    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"]
     : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals
 }
-  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes'][CompositeTypeName]
-  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema['CompositeTypes']
-    ? DefaultSchema['CompositeTypes'][PublicCompositeTypeNameOrOptions]
+  ? DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions["schema"]]["CompositeTypes"][CompositeTypeName]
+  : PublicCompositeTypeNameOrOptions extends keyof DefaultSchema["CompositeTypes"]
+    ? DefaultSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
 
 export const Constants = {
   public: {
     Enums: {
-      campaign_source: ['sim', 'historical_standardized'],
-      import_kind: ['geography', 'soil_analysis', 'recommendations'],
-      import_status: ['uploaded', 'validating', 'validated', 'committed', 'failed'],
-      member_role: ['admin', 'technician', 'viewer'],
-      recommendation_kind: ['corrective', 'organic', 'nutritional'],
-      record_status: ['active', 'archived'],
+      campaign_source: ["sim", "historical_standardized"],
+      import_kind: ["geography", "soil_analysis", "recommendations"],
+      import_status: [
+        "uploaded",
+        "validating",
+        "validated",
+        "committed",
+        "failed",
+      ],
+      member_role: ["admin", "technician", "viewer"],
+      recommendation_kind: ["corrective", "organic", "nutritional"],
+      record_status: ["active", "archived"],
     },
   },
 } as const
+
 
 // ====== DATABASE EXTENDED CONTEXT (auto-generated) ======
 // This section contains actual PostgreSQL column types, constraints, RLS policies,
@@ -1055,6 +1169,14 @@ export const Constants = {
 //   expected_yield: numeric (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   label: text (nullable)
+//   previous_crop: text (nullable)
+//   expected_productivity: numeric (nullable)
+//   actual_productivity: numeric (nullable)
+//   productivity_unit: text (nullable)
+//   start_date: date (nullable)
+//   end_date: date (nullable)
+//   notes: text (nullable)
 // Table: areas
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1065,6 +1187,10 @@ export const Constants = {
 //   status: record_status (not null, default: 'active'::record_status)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   notes: text (nullable)
+//   declared_area_ha: numeric (nullable)
+//   calculated_area_ha: numeric (nullable)
+//   source_srid: text (nullable)
 // Table: audit_logs
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (nullable)
@@ -1075,6 +1201,9 @@ export const Constants = {
 //   old_data: jsonb (nullable)
 //   new_data: jsonb (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
+//   actor_id: uuid (nullable)
+//   entity_type: text (nullable)
+//   changes: jsonb (nullable)
 // Table: farms
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1085,6 +1214,8 @@ export const Constants = {
 //   status: record_status (not null, default: 'active'::record_status)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   total_area_ha: numeric (nullable)
+//   notes: text (nullable)
 // Table: import_files
 //   id: uuid (not null, default: gen_random_uuid())
 //   import_id: uuid (not null)
@@ -1092,6 +1223,10 @@ export const Constants = {
 //   original_name: text (not null)
 //   file_size: bigint (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
+//   organization_id: uuid (nullable)
+//   file_kind: text (nullable)
+//   storage_path: text (nullable)
+//   checksum: text (nullable)
 // Table: imports
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1101,6 +1236,13 @@ export const Constants = {
 //   log_messages: jsonb (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   area_id: uuid (nullable)
+//   area_season_id: uuid (nullable)
+//   source_srid: text (nullable)
+//   validation_summary: jsonb (nullable)
+//   error_summary: jsonb (nullable)
+//   uploaded_by: uuid (nullable)
+//   committed_at: timestamp with time zone (nullable)
 // Table: lab_attributes
 //   code: text (not null)
 //   name: text (not null)
@@ -1108,6 +1250,10 @@ export const Constants = {
 //   category: text (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   id: uuid (not null, default: gen_random_uuid())
+//   default_unit: text (nullable)
+//   display_order: integer (nullable, default: 0)
+//   active: boolean (nullable, default: true)
 // Table: lab_measurements
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1117,6 +1263,11 @@ export const Constants = {
 //   text_value: text (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   attribute_id: uuid (nullable)
+//   unit: text (nullable)
+//   method: text (nullable)
+//   extractor: text (nullable)
+//   classification: text (nullable)
 // Table: organization_members
 //   organization_id: uuid (not null)
 //   user_id: uuid (not null)
@@ -1136,6 +1287,9 @@ export const Constants = {
 //   status: record_status (not null, default: 'active'::record_status)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   email: text (nullable)
+//   phone: text (nullable)
+//   notes: text (nullable)
 // Table: profiles
 //   id: uuid (not null)
 //   email: text (not null)
@@ -1146,13 +1300,15 @@ export const Constants = {
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
 //   set_id: uuid (not null)
-//   point_id: uuid (not null)
+//   sampling_point_id: uuid (nullable)
 //   kind: recommendation_kind (not null)
 //   product: text (not null)
 //   dose: numeric (not null)
 //   unit: text (not null)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   item: text (nullable)
+//   notes: text (nullable)
 // Table: recommendation_sets
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1160,16 +1316,22 @@ export const Constants = {
 //   name: text (not null)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   kind: text (nullable)
+//   title: text (nullable)
+//   notes: text (nullable)
+//   created_by: uuid (nullable)
 // Table: samples
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
-//   point_id: uuid (not null)
+//   sampling_point_id: uuid (not null)
 //   code: text (not null)
 //   depth_top_cm: numeric (nullable)
 //   depth_bottom_cm: numeric (nullable)
 //   collection_date: date (nullable)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   depth_from_cm: numeric (nullable)
+//   depth_to_cm: numeric (nullable)
 // Table: sampling_campaigns
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1181,6 +1343,11 @@ export const Constants = {
 //   status: record_status (not null, default: 'active'::record_status)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   code: text (nullable)
+//   sample_date: date (nullable)
+//   result_date: date (nullable)
+//   laboratory: text (nullable)
+//   notes: text (nullable)
 // Table: sampling_points
 //   id: uuid (not null, default: gen_random_uuid())
 //   organization_id: uuid (not null)
@@ -1189,6 +1356,9 @@ export const Constants = {
 //   location: geometry (not null)
 //   created_at: timestamp with time zone (not null, default: now())
 //   updated_at: timestamp with time zone (not null, default: now())
+//   code: text (not null)
+//   external_id: text (nullable)
+//   sequence: integer (nullable)
 
 // --- CONSTRAINTS ---
 // Table: area_seasons
@@ -1201,6 +1371,7 @@ export const Constants = {
 //   FOREIGN KEY areas_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 //   PRIMARY KEY areas_pkey: PRIMARY KEY (id)
 // Table: audit_logs
+//   FOREIGN KEY audit_logs_actor_id_fkey: FOREIGN KEY (actor_id) REFERENCES profiles(id)
 //   PRIMARY KEY audit_logs_pkey: PRIMARY KEY (id)
 // Table: farms
 //   FOREIGN KEY farms_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
@@ -1208,16 +1379,21 @@ export const Constants = {
 //   FOREIGN KEY farms_producer_id_fkey: FOREIGN KEY (producer_id) REFERENCES producers(id) ON DELETE CASCADE
 // Table: import_files
 //   FOREIGN KEY import_files_import_id_fkey: FOREIGN KEY (import_id) REFERENCES imports(id) ON DELETE CASCADE
+//   FOREIGN KEY import_files_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id)
 //   PRIMARY KEY import_files_pkey: PRIMARY KEY (id)
 // Table: imports
+//   FOREIGN KEY imports_area_id_fkey: FOREIGN KEY (area_id) REFERENCES areas(id)
+//   FOREIGN KEY imports_area_season_id_fkey: FOREIGN KEY (area_season_id) REFERENCES area_seasons(id)
 //   FOREIGN KEY imports_created_by_fkey: FOREIGN KEY (created_by) REFERENCES profiles(id) ON DELETE RESTRICT
 //   FOREIGN KEY imports_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 //   PRIMARY KEY imports_pkey: PRIMARY KEY (id)
+//   FOREIGN KEY imports_uploaded_by_fkey: FOREIGN KEY (uploaded_by) REFERENCES profiles(id)
 // Table: lab_attributes
-//   PRIMARY KEY lab_attributes_pkey: PRIMARY KEY (code)
+//   UNIQUE lab_attributes_code_key: UNIQUE (code)
+//   PRIMARY KEY lab_attributes_pkey: PRIMARY KEY (id)
 // Table: lab_measurements
 //   CHECK has_value: CHECK (((numeric_value IS NOT NULL) OR (text_value IS NOT NULL)))
-//   FOREIGN KEY lab_measurements_attribute_code_fkey: FOREIGN KEY (attribute_code) REFERENCES lab_attributes(code) ON DELETE RESTRICT
+//   FOREIGN KEY lab_measurements_attribute_id_fkey: FOREIGN KEY (attribute_id) REFERENCES lab_attributes(id) ON DELETE RESTRICT
 //   FOREIGN KEY lab_measurements_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 //   PRIMARY KEY lab_measurements_pkey: PRIMARY KEY (id)
 //   UNIQUE lab_measurements_sample_id_attribute_code_key: UNIQUE (sample_id, attribute_code)
@@ -1237,16 +1413,17 @@ export const Constants = {
 // Table: recommendation_items
 //   FOREIGN KEY recommendation_items_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 //   PRIMARY KEY recommendation_items_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY recommendation_items_point_id_fkey: FOREIGN KEY (point_id) REFERENCES sampling_points(id) ON DELETE CASCADE
+//   FOREIGN KEY recommendation_items_point_id_fkey: FOREIGN KEY (sampling_point_id) REFERENCES sampling_points(id) ON DELETE CASCADE
 //   FOREIGN KEY recommendation_items_set_id_fkey: FOREIGN KEY (set_id) REFERENCES recommendation_sets(id) ON DELETE CASCADE
 // Table: recommendation_sets
 //   FOREIGN KEY recommendation_sets_campaign_id_fkey: FOREIGN KEY (campaign_id) REFERENCES sampling_campaigns(id) ON DELETE CASCADE
+//   FOREIGN KEY recommendation_sets_created_by_fkey: FOREIGN KEY (created_by) REFERENCES profiles(id)
 //   FOREIGN KEY recommendation_sets_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 //   PRIMARY KEY recommendation_sets_pkey: PRIMARY KEY (id)
 // Table: samples
 //   FOREIGN KEY samples_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
 //   PRIMARY KEY samples_pkey: PRIMARY KEY (id)
-//   FOREIGN KEY samples_point_id_fkey: FOREIGN KEY (point_id) REFERENCES sampling_points(id) ON DELETE CASCADE
+//   FOREIGN KEY samples_point_id_fkey: FOREIGN KEY (sampling_point_id) REFERENCES sampling_points(id) ON DELETE CASCADE
 // Table: sampling_campaigns
 //   FOREIGN KEY sampling_campaigns_area_season_id_fkey: FOREIGN KEY (area_season_id) REFERENCES area_seasons(id) ON DELETE CASCADE
 //   FOREIGN KEY sampling_campaigns_organization_id_fkey: FOREIGN KEY (organization_id) REFERENCES organizations(id) ON DELETE CASCADE
@@ -1263,7 +1440,7 @@ export const Constants = {
 //   Policy "area_seasons_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "area_seasons_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "area_seasons_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: areas
@@ -1272,7 +1449,7 @@ export const Constants = {
 //   Policy "areas_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "areas_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "areas_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: audit_logs
@@ -1284,25 +1461,25 @@ export const Constants = {
 //   Policy "farms_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "farms_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "farms_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: import_files
 //   Policy "import_files_delete" (DELETE, PERMISSIVE) roles={authenticated}
-//     USING: (import_id IN ( SELECT imports.id    FROM imports   WHERE has_role_in_org(imports.organization_id, ARRAY['admin'::member_role, 'technician'::member_role])))
+//     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "import_files_insert" (INSERT, PERMISSIVE) roles={authenticated}
-//     WITH CHECK: (import_id IN ( SELECT imports.id    FROM imports   WHERE has_role_in_org(imports.organization_id, ARRAY['admin'::member_role, 'technician'::member_role])))
+//     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "import_files_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (import_id IN ( SELECT imports.id    FROM imports   WHERE (imports.organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "import_files_update" (UPDATE, PERMISSIVE) roles={authenticated}
-//     USING: (import_id IN ( SELECT imports.id    FROM imports   WHERE has_role_in_org(imports.organization_id, ARRAY['admin'::member_role, 'technician'::member_role])))
+//     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: imports
 //   Policy "imports_delete" (DELETE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "imports_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "imports_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "imports_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: lab_attributes
@@ -1317,7 +1494,7 @@ export const Constants = {
 //   Policy "lab_measurements_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "lab_measurements_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "lab_measurements_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: organization_members
@@ -1337,12 +1514,12 @@ export const Constants = {
 //   Policy "producers_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "producers_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "producers_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: profiles
 //   Policy "profiles_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: true
+//     USING: ((id = auth.uid()) OR (id IN ( SELECT organization_members.user_id    FROM organization_members   WHERE (organization_members.organization_id IN ( SELECT organization_members_1.organization_id            FROM organization_members organization_members_1           WHERE (organization_members_1.user_id = auth.uid()))))))
 //   Policy "profiles_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: (id = auth.uid())
 // Table: recommendation_items
@@ -1351,7 +1528,7 @@ export const Constants = {
 //   Policy "recommendation_items_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "recommendation_items_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "recommendation_items_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: recommendation_sets
@@ -1360,7 +1537,7 @@ export const Constants = {
 //   Policy "recommendation_sets_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "recommendation_sets_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "recommendation_sets_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: samples
@@ -1369,7 +1546,7 @@ export const Constants = {
 //   Policy "samples_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "samples_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "samples_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: sampling_campaigns
@@ -1378,7 +1555,7 @@ export const Constants = {
 //   Policy "sampling_campaigns_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "sampling_campaigns_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "sampling_campaigns_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 // Table: sampling_points
@@ -1387,7 +1564,7 @@ export const Constants = {
 //   Policy "sampling_points_insert" (INSERT, PERMISSIVE) roles={authenticated}
 //     WITH CHECK: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 //   Policy "sampling_points_select" (SELECT, PERMISSIVE) roles={authenticated}
-//     USING: (organization_id IN ( SELECT get_user_organizations() AS get_user_organizations))
+//     USING: (organization_id IN ( SELECT organization_members.organization_id    FROM organization_members   WHERE (organization_members.user_id = auth.uid())))
 //   Policy "sampling_points_update" (UPDATE, PERMISSIVE) roles={authenticated}
 //     USING: has_role_in_org(organization_id, ARRAY['admin'::member_role, 'technician'::member_role])
 
@@ -1418,7 +1595,7 @@ export const Constants = {
 //           org_id := (old_data->>'organization_id')::UUID;
 //           ent_id := (old_data->>'id')::UUID;
 //       END IF;
-//
+//   
 //       IF ent_id IS NOT NULL THEN
 //           INSERT INTO public.audit_logs (
 //               organization_id,
@@ -1438,14 +1615,200 @@ export const Constants = {
 //               new_data
 //           );
 //       END IF;
-//
+//   
 //       IF (TG_OP = 'DELETE') THEN
 //           RETURN OLD;
 //       END IF;
 //       RETURN NEW;
 //   END;
 //   $function$
-//
+//   
+// FUNCTION commit_geographic_import(uuid, uuid, uuid, text, jsonb, jsonb, numeric, text, text, uuid, text, text, bigint)
+//   CREATE OR REPLACE FUNCTION public.commit_geographic_import(p_import_id uuid, p_area_id uuid, p_campaign_id uuid, p_action text, p_boundary_geojson jsonb, p_points jsonb, p_calculated_area_ha numeric, p_source_srid text, p_justification text, p_org_id uuid, p_file_path text, p_original_name text, p_file_size bigint)
+//    RETURNS void
+//    LANGUAGE plpgsql
+//    SECURITY DEFINER
+//    SET search_path TO 'public', 'gis'
+//   AS $function$
+//   DECLARE
+//     v_point jsonb;
+//   BEGIN
+//     IF auth.uid() IS NULL OR NOT public.has_role_in_org(
+//       p_org_id,
+//       ARRAY['admin'::public.member_role, 'technician'::public.member_role]
+//     ) THEN
+//       RAISE EXCEPTION 'Acesso negado';
+//     END IF;
+//   
+//     IF NOT EXISTS (
+//       SELECT 1 FROM public.areas a
+//       WHERE a.id = p_area_id AND a.organization_id = p_org_id
+//     ) THEN
+//       RAISE EXCEPTION 'Área inválida';
+//     END IF;
+//   
+//     IF p_action NOT IN ('initial', 'new_points', 'update_boundary') THEN
+//       RAISE EXCEPTION 'Ação geográfica inválida';
+//     END IF;
+//   
+//     IF p_action IN ('initial', 'new_points') AND (
+//       p_campaign_id IS NULL OR COALESCE(jsonb_array_length(p_points), 0) = 0
+//     ) THEN
+//       RAISE EXCEPTION 'A campanha e os pontos são obrigatórios';
+//     END IF;
+//   
+//     IF p_campaign_id IS NOT NULL AND NOT EXISTS (
+//       SELECT 1
+//       FROM public.sampling_campaigns c
+//       JOIN public.area_seasons s ON s.id = c.area_season_id
+//       WHERE c.id = p_campaign_id
+//         AND c.organization_id = p_org_id
+//         AND s.area_id = p_area_id
+//     ) THEN
+//       RAISE EXCEPTION 'A campanha não pertence à área';
+//     END IF;
+//   
+//     IF p_action = 'initial' AND p_boundary_geojson IS NULL THEN
+//       RAISE EXCEPTION 'O contorno é obrigatório no cadastro inicial';
+//     END IF;
+//   
+//     IF p_action = 'new_points' AND NOT EXISTS (
+//       SELECT 1 FROM public.areas a WHERE a.id = p_area_id AND a.boundary IS NOT NULL
+//     ) THEN
+//       RAISE EXCEPTION 'Cadastre o contorno antes de importar somente pontos';
+//     END IF;
+//   
+//     IF p_action = 'update_boundary' AND (
+//       p_boundary_geojson IS NULL OR NULLIF(trim(p_justification), '') IS NULL
+//     ) THEN
+//       RAISE EXCEPTION 'Contorno e justificativa são obrigatórios';
+//     END IF;
+//   
+//     INSERT INTO public.imports (
+//       id, organization_id, area_id, kind, status, created_by, uploaded_by,
+//       source_srid, validation_summary
+//     ) VALUES (
+//       p_import_id, p_org_id, p_area_id, 'geography', 'validating', auth.uid(), auth.uid(),
+//       p_source_srid, jsonb_build_object('point_count', COALESCE(jsonb_array_length(p_points), 0))
+//     )
+//     ON CONFLICT (id) DO UPDATE SET status = 'validating';
+//   
+//     IF p_file_path IS NOT NULL THEN
+//       INSERT INTO public.import_files (
+//         import_id, organization_id, file_path, storage_path, original_name, file_size, file_kind
+//       ) VALUES (
+//         p_import_id, p_org_id, p_file_path, p_file_path, p_original_name, p_file_size, 'geography'
+//       );
+//     END IF;
+//   
+//     IF p_action IN ('initial', 'update_boundary') THEN
+//       UPDATE public.areas
+//       SET boundary = gis.ST_Multi(
+//             gis.ST_SetSRID(gis.ST_GeomFromGeoJSON(p_boundary_geojson::text), 4326)
+//           ),
+//           calculated_area_ha = p_calculated_area_ha,
+//           source_srid = p_source_srid,
+//           updated_at = NOW()
+//       WHERE id = p_area_id AND organization_id = p_org_id;
+//     END IF;
+//   
+//     IF p_campaign_id IS NOT NULL AND COALESCE(jsonb_array_length(p_points), 0) > 0 THEN
+//       FOR v_point IN SELECT * FROM jsonb_array_elements(p_points)
+//       LOOP
+//         INSERT INTO public.sampling_points (
+//           organization_id, campaign_id, name, code, location
+//         ) VALUES (
+//           p_org_id,
+//           p_campaign_id,
+//           v_point->>'code',
+//           v_point->>'code',
+//           gis.ST_SetSRID(
+//             gis.ST_MakePoint((v_point->>'lng')::numeric, (v_point->>'lat')::numeric),
+//             4326
+//           )
+//         );
+//       END LOOP;
+//     END IF;
+//   
+//     IF p_action = 'update_boundary' THEN
+//       INSERT INTO public.audit_logs (
+//         organization_id, user_id, actor_id, action, entity, entity_type, entity_id, new_data, changes
+//       ) VALUES (
+//         p_org_id, auth.uid(), auth.uid(), 'UPDATE_BOUNDARY', 'areas', 'areas', p_area_id,
+//         jsonb_build_object('justification', p_justification, 'calculated_area_ha', p_calculated_area_ha),
+//         jsonb_build_object('justification', p_justification, 'calculated_area_ha', p_calculated_area_ha)
+//       );
+//     END IF;
+//   
+//     UPDATE public.imports
+//     SET status = 'committed', committed_at = NOW()
+//     WHERE id = p_import_id;
+//   END;
+//   $function$
+//   
+// FUNCTION get_area_map_data(uuid)
+//   CREATE OR REPLACE FUNCTION public.get_area_map_data(p_area_id uuid)
+//    RETURNS json
+//    LANGUAGE plpgsql
+//    SECURITY DEFINER
+//    SET search_path TO 'public', 'gis'
+//   AS $function$
+//   DECLARE
+//     v_boundary json;
+//   BEGIN
+//     IF auth.uid() IS NULL OR NOT EXISTS (
+//       SELECT 1
+//       FROM public.areas a
+//       JOIN public.organization_members om ON om.organization_id = a.organization_id
+//       WHERE a.id = p_area_id AND om.user_id = auth.uid()
+//     ) THEN
+//       RAISE EXCEPTION 'Acesso negado';
+//     END IF;
+//   
+//     SELECT gis.ST_AsGeoJSON(a.boundary)::json
+//     INTO v_boundary
+//     FROM public.areas a
+//     WHERE a.id = p_area_id;
+//   
+//     RETURN json_build_object('boundary', v_boundary);
+//   END;
+//   $function$
+//   
+// FUNCTION get_campaign_points(uuid)
+//   CREATE OR REPLACE FUNCTION public.get_campaign_points(p_campaign_id uuid)
+//    RETURNS json
+//    LANGUAGE plpgsql
+//    SECURITY DEFINER
+//    SET search_path TO 'public', 'gis'
+//   AS $function$
+//   DECLARE
+//     v_points json;
+//   BEGIN
+//     IF auth.uid() IS NULL OR NOT EXISTS (
+//       SELECT 1
+//       FROM public.sampling_campaigns c
+//       JOIN public.organization_members om ON om.organization_id = c.organization_id
+//       WHERE c.id = p_campaign_id AND om.user_id = auth.uid()
+//     ) THEN
+//       RAISE EXCEPTION 'Acesso negado';
+//     END IF;
+//   
+//     SELECT json_agg(
+//       json_build_object(
+//         'id', sp.id,
+//         'code', sp.code,
+//         'lat', gis.ST_Y(sp.location),
+//         'lng', gis.ST_X(sp.location)
+//       )
+//     )
+//     INTO v_points
+//     FROM public.sampling_points sp
+//     WHERE sp.campaign_id = p_campaign_id;
+//   
+//     RETURN COALESCE(v_points, '[]'::json);
+//   END;
+//   $function$
+//   
 // FUNCTION get_user_organizations()
 //   CREATE OR REPLACE FUNCTION public.get_user_organizations()
 //    RETURNS SETOF uuid
@@ -1455,7 +1818,7 @@ export const Constants = {
 //   AS $function$
 //       SELECT organization_id FROM public.organization_members WHERE user_id = auth.uid();
 //   $function$
-//
+//   
 // FUNCTION handle_new_user()
 //   CREATE OR REPLACE FUNCTION public.handle_new_user()
 //    RETURNS trigger
@@ -1463,29 +1826,66 @@ export const Constants = {
 //    SECURITY DEFINER
 //   AS $function$
 //   BEGIN
-//     INSERT INTO public.profiles (id, email)
-//     VALUES (NEW.id, NEW.email)
+//     INSERT INTO public.profiles (id, email, full_name)
+//     VALUES (NEW.id, NEW.email, NEW.raw_user_meta_data->>'full_name')
 //     ON CONFLICT (id) DO NOTHING;
 //     RETURN NEW;
 //   END;
 //   $function$
-//
+//   
 // FUNCTION has_role_in_org(uuid, member_role[])
 //   CREATE OR REPLACE FUNCTION public.has_role_in_org(org_id uuid, allowed_roles member_role[])
 //    RETURNS boolean
 //    LANGUAGE sql
 //    STABLE SECURITY DEFINER
-//    SET search_path TO 'public'
 //   AS $function$
-//       SELECT EXISTS (
-//           SELECT 1
-//           FROM public.organization_members
-//           WHERE organization_id = org_id
-//             AND user_id = auth.uid()
-//             AND role = ANY(allowed_roles)
-//       );
+//     SELECT EXISTS (
+//       SELECT 1 FROM public.organization_members
+//       WHERE organization_id = org_id
+//         AND user_id = auth.uid()
+//         AND role = ANY(allowed_roles)
+//     );
 //   $function$
-//
+//   
+// FUNCTION reuse_campaign_points(uuid, uuid, uuid)
+//   CREATE OR REPLACE FUNCTION public.reuse_campaign_points(p_source_campaign_id uuid, p_target_campaign_id uuid, p_org_id uuid)
+//    RETURNS void
+//    LANGUAGE plpgsql
+//    SECURITY DEFINER
+//    SET search_path TO 'public', 'gis'
+//   AS $function$
+//   BEGIN
+//     IF auth.uid() IS NULL OR NOT public.has_role_in_org(
+//       p_org_id,
+//       ARRAY['admin'::public.member_role, 'technician'::public.member_role]
+//     ) THEN
+//       RAISE EXCEPTION 'Acesso negado';
+//     END IF;
+//   
+//     IF p_source_campaign_id = p_target_campaign_id OR NOT EXISTS (
+//       SELECT 1
+//       FROM public.sampling_campaigns source
+//       JOIN public.area_seasons source_season ON source_season.id = source.area_season_id
+//       JOIN public.sampling_campaigns target ON target.id = p_target_campaign_id
+//       JOIN public.area_seasons target_season ON target_season.id = target.area_season_id
+//       WHERE source.id = p_source_campaign_id
+//         AND source.organization_id = p_org_id
+//         AND target.organization_id = p_org_id
+//         AND source_season.area_id = target_season.area_id
+//     ) THEN
+//       RAISE EXCEPTION 'Campanhas incompatíveis';
+//     END IF;
+//   
+//     INSERT INTO public.sampling_points (
+//       organization_id, campaign_id, name, code, location, external_id, sequence
+//     )
+//     SELECT
+//       organization_id, p_target_campaign_id, name, code, location, external_id, sequence
+//     FROM public.sampling_points
+//     WHERE campaign_id = p_source_campaign_id AND organization_id = p_org_id;
+//   END;
+//   $function$
+//   
 // FUNCTION set_updated_at()
 //   CREATE OR REPLACE FUNCTION public.set_updated_at()
 //    RETURNS trigger
@@ -1496,7 +1896,7 @@ export const Constants = {
 //       RETURN NEW;
 //   END;
 //   $function$
-//
+//   
 
 // --- TRIGGERS ---
 // Table: area_seasons
@@ -1544,5 +1944,12 @@ export const Constants = {
 // --- INDEXES ---
 // Table: area_seasons
 //   CREATE UNIQUE INDEX area_seasons_area_id_season_year_key ON public.area_seasons USING btree (area_id, season_year)
+// Table: lab_attributes
+//   CREATE UNIQUE INDEX lab_attributes_code_key ON public.lab_attributes USING btree (code)
 // Table: lab_measurements
 //   CREATE UNIQUE INDEX lab_measurements_sample_id_attribute_code_key ON public.lab_measurements USING btree (sample_id, attribute_code)
+// Table: samples
+//   CREATE UNIQUE INDEX idx_samples_point_depth ON public.samples USING btree (sampling_point_id, depth_from_cm, depth_to_cm)
+// Table: sampling_points
+//   CREATE UNIQUE INDEX idx_sampling_points_campaign_code ON public.sampling_points USING btree (campaign_id, code)
+
