@@ -1,11 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Map, Plus, ChevronRight, ArrowLeft } from 'lucide-react'
-import { api, Producer, Farm } from '@/lib/api'
-import { useToast } from '@/hooks/use-toast'
+import { Map, ChevronRight, ArrowLeft } from 'lucide-react'
+import { useBreadcrumbs } from '@/hooks/use-breadcrumbs'
+import { useQuery } from '@/hooks/use-query'
+import { supabase } from '@/lib/supabase/client'
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import {
@@ -17,68 +15,43 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
-
-const schema = z.object({
-  name: z.string().min(3, 'Nome muito curto'),
-  totalArea: z.coerce.number().min(0.1, 'Área inválida'),
-})
 
 export default function ProducerDetail() {
   const { id } = useParams()
-  const [producer, setProducer] = useState<Producer | null>(null)
-  const [farms, setFarms] = useState<Farm[]>([])
-  const [open, setOpen] = useState(false)
-  const { toast } = useToast()
+  const { setBreadcrumbs } = useBreadcrumbs()
 
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
-    defaultValues: { name: '', totalArea: 0 },
-  })
+  const { data: producer, isLoading: loadingProducer } = useQuery(
+    ['producer', id || ''],
+    async () => {
+      const { data, error } = await supabase.from('producers').select('*').eq('id', id!).single()
+      if (error) throw error
+      return data
+    },
+    { enabled: !!id },
+  )
 
-  const load = async () => {
-    if (!id) return
-    const p = await api.getProducer(id)
-    if (p) setProducer(p)
-    const f = await api.getFarmsByProducer(id)
-    setFarms(f)
-  }
+  const { data: farms = [] } = useQuery(
+    ['producer-farms', id || ''],
+    async () => {
+      const { data, error } = await supabase
+        .from('farms')
+        .select('*')
+        .eq('producer_id', id!)
+        .eq('status', 'active')
+      if (error) throw error
+      return data || []
+    },
+    { enabled: !!id },
+  )
 
   useEffect(() => {
-    load()
-  }, [id])
+    if (producer) {
+      setBreadcrumbs([{ label: 'Produtores', url: '/produtores' }, { label: producer.name }])
+    }
+  }, [producer, setBreadcrumbs])
 
-  const onSubmit = async (values: z.infer<typeof schema>) => {
-    if (!id) return
-    await api.createFarm({ ...values, producerId: id })
-    toast({ title: 'Sucesso', description: 'Fazenda cadastrada com sucesso.' })
-    setOpen(false)
-    form.reset()
-    load()
-  }
-
-  if (!producer)
-    return (
-      <div className="p-12 text-center text-muted-foreground animate-pulse">
-        Carregando produtor...
-      </div>
-    )
+  if (loadingProducer || !producer)
+    return <div className="p-12 text-center animate-pulse">Carregando produtor...</div>
 
   return (
     <div className="space-y-6">
@@ -91,57 +64,21 @@ export default function ProducerDetail() {
           </Button>
           <div>
             <h1 className="text-3xl font-bold tracking-tight text-primary">{producer.name}</h1>
-            <p className="text-muted-foreground mt-1">Documento: {producer.document}</p>
+            <p className="text-muted-foreground mt-1 flex gap-2 flex-wrap">
+              {producer.document && (
+                <span className="bg-muted px-2 py-0.5 rounded text-sm">
+                  Doc: {producer.document}
+                </span>
+              )}
+              {producer.email && (
+                <span className="bg-muted px-2 py-0.5 rounded text-sm">{producer.email}</span>
+              )}
+              {producer.phone && (
+                <span className="bg-muted px-2 py-0.5 rounded text-sm">{producer.phone}</span>
+              )}
+            </p>
           </div>
         </div>
-        <Sheet open={open} onOpenChange={setOpen}>
-          <SheetTrigger asChild>
-            <Button>
-              <Plus className="w-4 h-4 mr-2" /> Nova Fazenda
-            </Button>
-          </SheetTrigger>
-          <SheetContent className="sm:max-w-md">
-            <SheetHeader>
-              <SheetTitle>Nova Fazenda</SheetTitle>
-              <SheetDescription>
-                Adicione uma nova propriedade rural para este produtor.
-              </SheetDescription>
-            </SheetHeader>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 mt-6">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Nome da Fazenda</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Ex: Fazenda Esperança" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="totalArea"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Área Total (ha)</FormLabel>
-                      <FormControl>
-                        <Input type="number" step="0.01" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full">
-                  Salvar Fazenda
-                </Button>
-              </form>
-            </Form>
-          </SheetContent>
-        </Sheet>
       </div>
 
       <Card className="shadow-sm">
@@ -158,6 +95,7 @@ export default function ProducerDetail() {
             <TableHeader className="bg-muted/50">
               <TableRow>
                 <TableHead className="pl-6">Nome da Propriedade</TableHead>
+                <TableHead>Localidade</TableHead>
                 <TableHead>Área Total</TableHead>
                 <TableHead className="text-right pr-6 w-[120px]">Ações</TableHead>
               </TableRow>
@@ -165,7 +103,7 @@ export default function ProducerDetail() {
             <TableBody>
               {farms.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={3} className="text-center py-12 text-muted-foreground">
+                  <TableCell colSpan={4} className="text-center py-12 text-muted-foreground">
                     Nenhuma fazenda cadastrada.
                   </TableCell>
                 </TableRow>
@@ -173,7 +111,8 @@ export default function ProducerDetail() {
                 farms.map((f) => (
                   <TableRow key={f.id} className="hover:bg-muted/30">
                     <TableCell className="font-medium pl-6">{f.name}</TableCell>
-                    <TableCell>{f.totalArea} ha</TableCell>
+                    <TableCell>{f.city ? `${f.city}/${f.state}` : '-'}</TableCell>
+                    <TableCell>{f.total_area_ha ? `${f.total_area_ha} ha` : '-'}</TableCell>
                     <TableCell className="text-right pr-6">
                       <Button
                         variant="ghost"

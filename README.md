@@ -25,6 +25,21 @@ Este projeto foi criado de ponta a ponta com o [Skip](https://goskip.dev).
 npm install
 ```
 
+Crie o arquivo `.env.local` a partir de `.env.example` e preencha a URL e a chave pública do
+projeto Supabase. O arquivo com credenciais locais não deve ser versionado.
+
+## Supabase
+
+As migrations ficam em `supabase/migrations`. Antes de usar a importação geográfica, aplique a
+migration mais recente no projeto Supabase:
+
+```text
+20260602203000_phase4_consolidation.sql
+```
+
+Ela valida o PostGIS, cria o bucket privado `soil-imports`, restringe o acesso aos arquivos por
+organização e instala as RPCs usadas pelo mapa e pelo assistente de importação.
+
 ## 💻 Scripts Disponíveis
 
 ### Desenvolvimento
@@ -64,6 +79,9 @@ Permite visualizar a build de produção localmente antes do deploy.
 ```bash
 # Executar linter
 npm run lint
+
+# Verificar tipos TypeScript
+npm run typecheck
 
 # Executar linter e corrigir problemas automaticamente
 npm run lint:fix
